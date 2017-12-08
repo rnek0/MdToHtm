@@ -5,8 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MdToHtm"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Convert .md to .htm &lt;T S works&#47;&gt;" 
+        MinWidth="415" MinHeight="370"
+        Height="480" Width="640" Background="CadetBlue" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="S_lbl" TargetType="Label" >
+            <Setter Property="FontSize" Value="18px"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="8,8,0,2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="S_btn" TargetType="Button">
+            <Setter Property="Background" Value="CadetBlue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="18px"/>
+            <Setter Property="Margin" Value="60,2"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Background="CadetBlue">
+            <Label x:Name="lblChoix" Style="{ StaticResource S_lbl }" 
+               Content="Choisir le fichier markdown a convertir en html"/>
+        </Border>
+        <Border Grid.Row="1" Background="CadetBlue">
+            <TextBox x:Name="txtUriChoix" Height="20" Margin="8"/>
+        </Border>
+        <Border Grid.Row="2" Margin="8,0" Background="#77c0c0c0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!-- Click="BtnChoisir_Click"-->
+                <Button x:Name="btnChoisir" Content="Choisir" 
+                    Style="{StaticResource S_btn}"
+                Width="110" Height="35"/>
+                <Button x:Name="btnConvertir" Content="Convertir" 
+                        Click="BtnConvertir_Click"
+                    Style="{StaticResource S_btn}"
+                        Background="Orange"
+                Width="110" Height="35"/>
+            </StackPanel>
+        </Border>
+        <Border Grid.Row="3" Background="CadetBlue">
+            <TextBox x:Name="TextBlockFileMd" Background="White" Margin="8" VerticalScrollBarVisibility="Auto"/>
+        </Border>
     </Grid>
 </Window>

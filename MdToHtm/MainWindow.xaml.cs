@@ -1,28 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.IO;
 
 namespace MdToHtm
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private ConverterMD Convertisseur = null;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Convertisseur = new ConverterMD();
+            Convertisseur.FileConverted += (sndr,ev) => MessageBox.Show($"Converted file:\n{ev.FileConverted}");
+
+            btnChoisir.Click += (s,e) => 
+            {
+                txtUriChoix.Text = "";
+
+                OpenFileDialog ofd = new OpenFileDialog
+                {
+                    Filter = "Markdown files (*.md)|*.md"
+                };
+
+                var uriFile = (ofd.ShowDialog() == true) ? ofd.FileName : "";
+                txtUriChoix.Text = uriFile;
+
+                try
+                {
+                    TextBlockFileMd.Text = File.Exists(uriFile) ? File.ReadAllText(uriFile) : "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Oups ! \n{ex.Message}");
+                }
+
+                Convertisseur.Fichier = uriFile;
+            };
+        }
+
+        /// <summary>
+        /// Convert .md to .html
+        /// </summary>
+        private void BtnConvertir_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtUriChoix.Text))
+            {
+                Convertisseur.Convert();
+            }
+            else
+            {
+                MessageBox.Show("Vous devez choisir un fichier markdown !");
+            }
         }
     }
 }
