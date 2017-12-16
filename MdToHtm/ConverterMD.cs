@@ -22,7 +22,7 @@ namespace MdToHtm
             var pos = Fichier.LastIndexOf('\\');
             var uri = Fichier.Substring(0, pos);
             var fileName = Fichier.Substring(pos + 1);
-            fileName = fileName.Substring(0, fileName.Length - 2);
+            fileName = fileName.Substring(0, fileName.Length - 3);
             var FileResult = $"{uri}\\{fileName}.html";
 
             if (!string.IsNullOrEmpty(Fichier))
@@ -39,19 +39,11 @@ namespace MdToHtm
 
                 FileConverted?.Invoke(this, new ConvertedEventArgs { FileConverted = Fichier });
             }
-
-            
         }
     }
 
     public class ConvertedEventArgs: EventArgs
     {
-        //public string FileName;
         public string FileConverted { get; set; }
-
-        //public ConvertedEventArgs()
-        //{
-        //    FileName = FileConverted;
-        //}
     }   
 }

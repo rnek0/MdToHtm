@@ -8,15 +8,16 @@ namespace MdToHtm
     public partial class MainWindow : Window
     {
         private ConverterMD Convertisseur = null;
+        private string FileToConvert = string.Empty;
 
         public MainWindow()
         {
             InitializeComponent();
 
             Convertisseur = new ConverterMD();
-            Convertisseur.FileConverted += (sndr,ev) => MessageBox.Show($"Converted file:\n{ev.FileConverted}");
+            Convertisseur.FileConverted += (sndr, ev) => MessageBox.Show($"Converted file:\n{ev.FileConverted}");
 
-            btnChoisir.Click += (s,e) => 
+            btnChoisir.Click += (s, e) =>
             {
                 txtUriChoix.Text = "";
 
@@ -46,13 +47,21 @@ namespace MdToHtm
         /// </summary>
         private void BtnConvertir_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtUriChoix.Text))
+            FileToConvert = txtUriChoix.Text;
+            if (File.Exists(FileToConvert))
             {
-                Convertisseur.Convert();
+                if (!string.IsNullOrWhiteSpace(txtUriChoix.Text))
+                {
+                    Convertisseur.Convert();
+                }
+                else
+                {
+                    MessageBox.Show("Vous devez choisir un fichier markdown !");
+                }
             }
             else
             {
-                MessageBox.Show("Vous devez choisir un fichier markdown !");
+                MessageBox.Show("Vôtre fichier n'existe pas ou a été supprime entretemps...\nAucune action n'est efectuée.");
             }
         }
     }
