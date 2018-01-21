@@ -2,6 +2,7 @@
 using System;
 using System.Windows;
 using System.IO;
+using System.Windows.Input;
 
 namespace MdToHtm
 {
@@ -19,27 +20,33 @@ namespace MdToHtm
 
             btnChoisir.Click += (s, e) =>
             {
-                txtUriChoix.Text = "";
-
-                OpenFileDialog ofd = new OpenFileDialog
-                {
-                    Filter = "Markdown files (*.md)|*.md"
-                };
-
-                var uriFile = (ofd.ShowDialog() == true) ? ofd.FileName : "";
-                txtUriChoix.Text = uriFile;
-
-                try
-                {
-                    TextBlockFileMd.Text = File.Exists(uriFile) ? File.ReadAllText(uriFile) : "";
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Oups ! \n{ex.Message}");
-                }
-
-                Convertisseur.Fichier = uriFile;
+                OpenMdFile();
             };
+        }
+
+        private void OpenMdFile()
+        {
+            txtUriChoix.Text = "";
+
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Markdown files (*.md)|*.md"
+            };
+
+            var uriFile = (ofd.ShowDialog() == true) ? ofd.FileName : "";
+            txtUriChoix.Text = uriFile;
+
+            try
+            {
+                TextBlockFileMd.Text = File.Exists(uriFile) ? File.ReadAllText(uriFile) : "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Oups ! \n{ex.Message}");
+            }
+
+            Convertisseur.Fichier = uriFile;
+            btnConvertir.Focus();
         }
 
         /// <summary>
@@ -64,5 +71,16 @@ namespace MdToHtm
                 MessageBox.Show("Vôtre fichier n'existe pas ou a été supprime entretemps...\nAucune action n'est efectuée.");
             }
         }
+
+        private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            OpenMdFile();
+        }
+
     }
 }

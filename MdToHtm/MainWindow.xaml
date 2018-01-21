@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MdToHtm"
         mc:Ignorable="d"
-        Title="Convert .md to .htm &lt;T S works&#47;&gt;" 
+        Title="Convert .md to .htm &lt;&#47;T S works&gt;" 
         MinWidth="415" MinHeight="370"
         Height="480" Width="640" Background="CadetBlue" WindowStartupLocation="CenterScreen">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="OpenCommand_Executed" CanExecute="OpenCommand_CanExecute" />
+    </Window.CommandBindings>
     <Window.Resources>
         <Style x:Key="S_lbl" TargetType="Label" >
             <Setter Property="FontSize" Value="18px"/>
