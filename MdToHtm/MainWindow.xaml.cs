@@ -22,6 +22,16 @@ namespace MdToHtm
             {
                 OpenMdFile();
             };
+
+            this.Closing += (s, e) =>
+            {
+              if(MessageBoxResult.No == MessageBox.Show("Do you want to close the window ?", 
+                  "Closing...", 
+                  MessageBoxButton.YesNo))
+                {
+                    e.Cancel = true;
+                }
+            };
         }
 
         private void OpenMdFile()
